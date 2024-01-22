@@ -32,7 +32,12 @@ const App = ({ theme, popup, loading }) => {
     <ThemeProvider theme={muiTheme}>
       <ClientRoutes />
       <Loader isLoading={loading} />
-      <PopupMessage open={popup.open} title={popup.title} message={popup.message} onClose={closePopup} />
+      <PopupMessage
+        open={popup.open}
+        title={popup.title}
+        message={popup.message}
+        onClose={closePopup}
+      />
     </ThemeProvider>
   );
 };
