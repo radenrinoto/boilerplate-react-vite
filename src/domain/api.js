@@ -4,7 +4,8 @@ import { merge } from 'lodash';
 import request from '@utils/request';
 
 const urls = {
-  ping: 'ping.json',
+  // ping: 'ping.json',
+  ditto: 'ditto'
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -27,4 +28,12 @@ export const callAPI = async (endpoint, method, header = {}, params = {}, data =
   });
 };
 
-export const ping = () => callAPI(urls.ping, 'get');
+// export const ping = () => callAPI(urls.ping, 'get');
+
+export const fetchPokemon = () => callAPI(urls.ditto, 'GET');
+export const example = () => {
+  const header = {
+    'Content-Type': 'multipart/form-data'
+  }
+  return callAPI(urls.ditto, 'GET', header)
+};

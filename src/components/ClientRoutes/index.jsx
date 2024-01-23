@@ -8,7 +8,7 @@ const ClientRoutes = () => {
     const routeList = [];
 
     const renderElement = (route) => {
-      const { layout: Layout, component: Component, protected: Protected } = route;
+      const { layout: Layout, component: Component, protected: Protected, isAdmin: IsAdmin } = route;
       let element = <Component />;
 
       if (typeof Layout !== 'undefined') {

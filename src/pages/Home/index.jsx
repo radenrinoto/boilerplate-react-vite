@@ -1,21 +1,35 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect,useDispatch } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
+import { fetchPokemon } from './actions';
 
-import { ping } from '@containers/App/actions';
+// import { ping } from '@containers/App/actions';
+import { selectPokemon } from './selectors';
 
-const Home = () => {
+const Home = ({ pokemon }) => {
   const dispatch = useDispatch();
-
+  const text = '<h1>Title</h1>'
   useEffect(() => {
-    dispatch(ping());
+    dispatch(fetchPokemon());
   }, [dispatch]);
 
   return (
     <div>
-      <FormattedMessage id="app_greeting" />
+      {/* <FormattedMessage id="app_greeting" /> */}
+      <div dangerouslySetInnerHTML={{ __html: text }} />
+      <FormattedMessage id="register_title_text" />
     </div>
   );
 };
 
-export default Home;
+Home.propTypes = {
+  pokemon: PropTypes.object,
+};
+
+const mapStateToProps = createStructuredSelector({
+  pokemon: selectPokemon
+});
+
+export default connect(mapStateToProps)(Home);
