@@ -5,7 +5,8 @@ import request from '@utils/request';
 
 const urls = {
   // ping: 'ping.json',
-  ditto: 'ditto'
+  ditto: 'ditto',
+  register: 'register'
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -35,5 +36,9 @@ export const example = () => {
   const header = {
     'Content-Type': 'multipart/form-data'
   }
-  return callAPI(urls.ditto, 'GET', header)
+  return callAPI(urls.ditto, 'GET', header);
 };
+
+export const register = (dataUser) => {
+  return callAPI(urls.register, 'POST', {}, {}, dataUser);
+}

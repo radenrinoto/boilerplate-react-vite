@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect,useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
-import { fetchPokemon } from './actions';
+import { fetchPokemon, register } from './actions';
 
 // import { ping } from '@containers/App/actions';
 import { selectPokemon } from './selectors';
@@ -14,6 +14,15 @@ const Home = ({ pokemon }) => {
   useEffect(() => {
     dispatch(fetchPokemon());
   }, [dispatch]);
+
+  const onSubmit = () => {
+    const dataUser = {
+      email: 'asd',
+      fullname: 'asd',
+      password: 'asdsad'
+    }
+    dispatch(register(dataUser))
+  }
 
   return (
     <div>
