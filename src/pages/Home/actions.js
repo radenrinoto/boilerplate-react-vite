@@ -9,7 +9,9 @@ export const setPokemon = (pokemon) => ({
   pokemon
 })
 
-export const register = (dataUser) => ({
+export const register = (dataUser, cbSuccess, cbFailed) => ({
   type: REGISTER,
-  dataUser
+  dataUser,
+  cbSuccess,
+  cbFailed
 })

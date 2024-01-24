@@ -1,11 +1,9 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-// import { ping } from '@domain/api';
 import { showPopup, setLoading } from '@containers/App/actions';
 import { fetchPokemon, register } from '@domain/api';
 import { setPokemon } from './actions';
 import { FETCH_POKEMON, REGISTER } from './constants';
-// import { PING } from '@containers/App/constants';
 
 function* doFetchPokemon() {
   yield put(setLoading(true));
@@ -18,13 +16,16 @@ function* doFetchPokemon() {
   yield put(setLoading(false));
 }
 
-function* doRegister({ dataUser }) {
+function* doRegister({ dataUser, cbSuccess, cbFailed }) {
   yield put(setLoading(true));
   try {
-    const response = yield call(register, dataUser);
-    yield put(setPokemon(response));
+    const response = yield call(register, dataUser)
+    const user = {
+      email: 'blabla'
+    }
+    cbSuccess && cbSuccess(user);
   } catch (error) {
-    console.log(error)
+    cbFailed && cbFailed()
   }
   yield put(setLoading(false));
 }

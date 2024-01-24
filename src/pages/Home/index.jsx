@@ -1,34 +1,53 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect,useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { FormattedMessage } from 'react-intl';
 import { fetchPokemon, register } from './actions';
+import encryptPayload from '@utils/encryptionHelper';
 
-// import { ping } from '@containers/App/actions';
 import { selectPokemon } from './selectors';
 
 const Home = ({ pokemon }) => {
   const dispatch = useDispatch();
-  const text = '<h1>Title</h1>'
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState({});
   useEffect(() => {
     dispatch(fetchPokemon());
   }, [dispatch]);
 
+  const onChangeHandler = (value, type) => {
+    setUser({
+      ...user,
+      [type]: value
+    })
+  }
+
   const onSubmit = () => {
     const dataUser = {
-      email: 'asd',
-      fullname: 'asd',
-      password: 'asdsad'
+      fullname: encryptPayload(user.fullname),
+      email: encryptPayload(user.email),
+      password: encryptPayload(user.password),
     }
-    dispatch(register(dataUser))
+    dispatch(register(
+      dataUser,
+      () => {
+        console.log("Callback success");
+        navigate('/login');
+      },
+      (error) => {
+        console.log(error);
+      }
+    ))
   }
 
   return (
     <div>
-      {/* <FormattedMessage id="app_greeting" /> */}
-      <div dangerouslySetInnerHTML={{ __html: text }} />
-      <FormattedMessage id="register_title_text" />
+      <input onChange={(e) => onChangeHandler(e.target.value, 'fullname')} placeholder='fullname' />
+      <input onChange={(e) => onChangeHandler(e.target.value, 'email')} placeholder='email' />
+      <input onChange={(e) => onChangeHandler(e.target.value, 'password')} placeholder='password' />
+      <button onClick={() => onSubmit()}>Submit</button>
     </div>
   );
 };
