@@ -1,53 +1,42 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { fetchPokemon, register } from './actions';
-import encryptPayload from '@utils/encryptionHelper';
+import { FormattedMessage } from 'react-intl';
 
+import { fetchPokemon } from './actions';
 import { selectPokemon } from './selectors';
+
+import classes from './style.module.scss';
 
 const Home = ({ pokemon }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({});
   useEffect(() => {
-    dispatch(fetchPokemon());
+    dispatch(fetchPokemon())
   }, [dispatch]);
 
-  const onChangeHandler = (value, type) => {
-    setUser({
-      ...user,
-      [type]: value
-    })
-  }
-
-  const onSubmit = () => {
-    const dataUser = {
-      fullname: encryptPayload(user.fullname),
-      email: encryptPayload(user.email),
-      password: encryptPayload(user.password),
-    }
-    dispatch(register(
-      dataUser,
-      () => {
-        console.log("Callback success");
-        navigate('/login');
-      },
-      (error) => {
-        console.log(error);
-      }
-    ))
-  }
-
   return (
-    <div>
-      <input onChange={(e) => onChangeHandler(e.target.value, 'fullname')} placeholder='fullname' />
-      <input onChange={(e) => onChangeHandler(e.target.value, 'email')} placeholder='email' />
-      <input onChange={(e) => onChangeHandler(e.target.value, 'password')} placeholder='password' />
-      <button onClick={() => onSubmit()}>Submit</button>
+    <div className={classes.home}>
+      <div className={classes.homeWrapper}>
+        <h1 className={classes.title}>
+          <FormattedMessage id="app_greeting" />
+        </h1>
+        <div className={classes.lengthWrapper}>
+          <div className={classes.length}>
+            {pokemon.length}++
+          </div>
+        </div>
+        <div className={classes.buyNow} onClick={() => navigate('/courses')}>
+          <FormattedMessage id="navigate_to_product_texts" />
+        </div>
+        {pokemon?.map((item) => {
+          return <Cards />
+        })}
+      </div>
     </div>
   );
 };

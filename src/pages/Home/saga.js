@@ -11,7 +11,7 @@ function* doFetchPokemon() {
     const response = yield call(fetchPokemon);
     yield put(setPokemon(response));
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
   yield put(setLoading(false));
 }

@@ -31,11 +31,11 @@ export const callAPI = async (endpoint, method, header = {}, params = {}, data =
 // export const ping = () => callAPI(urls.ping, 'get');
 
 export const fetchPokemon = () => callAPI(urls.ditto, 'GET');
-export const example = () => {
+export const example = (data) => {
   const header = {
     'Content-Type': 'multipart/form-data'
   }
-  return callAPI(urls.ditto, 'GET', header);
+  return callAPI(urls.ditto, 'GET', header, {}, data);
 };
 
 export const register = (dataUser) => {
